@@ -21,6 +21,7 @@ func Reduce(msg message.Message) Message {
 			Avatar:   msg.Author.Avatar.String(),
 		},
 		Content:     msg.Content,
+		Timestamp:   msg.Timestamp,
 		Attachments: attachments,
 	}
 }

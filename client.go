@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"github.com/TicketsBot/archiverclient/discord"
 	"github.com/TicketsBot/common/encryption"
-	"github.com/TicketsBot/logarchiver"
 	"github.com/rxdn/gdl/objects/channel/message"
 	"io/ioutil"
 	"net/http"
@@ -122,114 +121,6 @@ func (c *ArchiverClient) Store(messages []message.Message, guildId uint64, ticke
 	}
 
 	return nil
-}
-
-func (c *ArchiverClient) GetModmail(guildId uint64, uuid string) ([]message.Message, error) {
-	endpoint := fmt.Sprintf("%s/modmail?guild=%d&uuid=%s", c.endpoint, guildId, uuid)
-	res, err := c.httpClient.Get(endpoint)
-	if err != nil {
-		return nil, err
-	}
-	defer res.Body.Close()
-
-	body, err := ioutil.ReadAll(res.Body)
-	if err != nil {
-		return nil, err
-	}
-
-	if res.StatusCode != 200 {
-		if res.StatusCode == 404 {
-			return nil, ErrExpired
-		}
-
-		var decoded map[string]string
-		if err := json.Unmarshal(body, &decoded); err != nil {
-			return nil, err
-		}
-
-		return nil, errors.New(decoded["message"])
-	} else {
-		body, err = encryption.Decompress(body)
-		if err != nil {
-			return nil, err
-		}
-
-		body, err = encryption.Decrypt(c.key, body)
-		if err != nil {
-			return nil, err
-		}
-
-		var messages []message.Message
-		if err := json.Unmarshal(body, &messages); err != nil {
-			return nil, err
-		}
-
-		return messages, nil
-	}
-}
-
-func (c *ArchiverClient) StoreModmail(messages []message.Message, guildId uint64, uuid string, premium bool) error {
-	reduced := discord.ReduceMessages(messages)
-
-	data, err := json.Marshal(reduced)
-	if err != nil {
-		return err
-	}
-
-	data, err = encryption.Encrypt(c.key, data)
-	if err != nil {
-		return err
-	}
-
-	data = encryption.Compress(data)
-
-	endpoint := fmt.Sprintf("%s/modmail?guild=%d&uuid=%s", c.endpoint, guildId, uuid)
-	if premium {
-		endpoint += "&premium"
-	}
-
-	res, err := c.httpClient.Post(endpoint, "application/json", bytes.NewReader(data))
-	if err != nil {
-		return err
-	}
-	defer res.Body.Close()
-
-	if res.StatusCode != 200 {
-		var decoded map[string]string
-		if err := json.NewDecoder(res.Body).Decode(&decoded); err != nil {
-			return err
-		}
-
-		return errors.New(decoded["message"])
-	}
-
-	return nil
-}
-
-func (c *ArchiverClient) GetModmailKeys(guildId uint64) ([]logarchiver.StoredObject, error) {
-	endpoint := fmt.Sprintf("%s/modmail/all?guild=%d", c.endpoint, guildId)
-
-	res, err := c.httpClient.Get(endpoint)
-	if err != nil {
-		return nil, err
-	}
-	defer res.Body.Close()
-
-	if res.StatusCode != 200 {
-		var decoded map[string]string
-		if err := json.NewDecoder(res.Body).Decode(&decoded); err != nil {
-			return nil, err
-		}
-
-		return nil, errors.New(decoded["error"])
-	}
-
-	var decoded []logarchiver.StoredObject
-	if err := json.NewDecoder(res.Body).Decode(&decoded); err != nil {
-		return nil, err
-	}
-
-	return decoded, nil
 }
 
 func (c *ArchiverClient) Encode(messages []message.Message, title string) ([]byte, error) {
