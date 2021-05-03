@@ -152,3 +152,29 @@ func (c *ArchiverClient) Encode(messages []message.Message, title string) ([]byt
 		return buff.Bytes(), nil
 	}
 }
+
+func (c *ArchiverClient) PurgeGuild(guildId uint64) error {
+	endpoint := fmt.Sprintf("%s/guild/%d", c.endpoint, guildId)
+
+	req, err := http.NewRequest(http.MethodDelete, endpoint, nil)
+	if err != nil {
+		return err
+	}
+
+	res, err := c.httpClient.Do(req)
+	if err != nil {
+		return err
+	}
+	defer res.Body.Close()
+
+	if res.StatusCode != 200 {
+		var decoded map[string]string
+		if err := json.NewDecoder(res.Body).Decode(&decoded); err != nil {
+			return err
+		}
+
+		return errors.New(decoded["message"])
+	}
+
+	return nil
+}
