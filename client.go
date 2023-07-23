@@ -30,6 +30,10 @@ var (
 	ErrNotFound = errors.New("Transcript not found")
 )
 
+type ErrorResponse struct {
+	Message string `json:"message"`
+}
+
 func NewArchiverClient(endpoint string, encryptionKey []byte) ArchiverClient {
 	return NewArchiverClientWithTimeout(endpoint, time.Second*3, encryptionKey)
 }
@@ -158,7 +162,7 @@ func (c *ArchiverClient) PurgeGuild(guildId uint64) error {
 	}
 	defer res.Body.Close()
 
-	if res.StatusCode != 200 {
+	if res.StatusCode != http.StatusAccepted {
 		var decoded map[string]string
 		if err := json.NewDecoder(res.Body).Decode(&decoded); err != nil {
 			return err
@@ -168,4 +172,55 @@ func (c *ArchiverClient) PurgeGuild(guildId uint64) error {
 	}
 
 	return nil
+}
+
+type Status string
+
+const (
+	StatusInProgress Status = "in_progress"
+	StatusComplete   Status = "complete"
+	StatusFailed     Status = "failed"
+)
+
+type PurgeStatus struct {
+	Status  Status            `json:"status"`
+	Removed []string          `json:"removed"`
+	Failed  []string          `json:"failed"`
+	Errors  map[string]string `json:"errors"`
+}
+
+var ErrOperationNotFound = errors.New("operation not found")
+
+func (c *ArchiverClient) PurgeStatus(guildId uint64) (PurgeStatus, error) {
+	endpoint := fmt.Sprintf("%s/guild/status/%d", c.endpoint, guildId)
+
+	req, err := http.NewRequest(http.MethodGet, endpoint, nil)
+	if err != nil {
+		return PurgeStatus{}, err
+	}
+
+	res, err := c.httpClient.Do(req)
+	if err != nil {
+		return PurgeStatus{}, err
+	}
+
+	defer res.Body.Close()
+
+	if res.StatusCode == 404 {
+		return PurgeStatus{}, ErrOperationNotFound
+	} else if res.StatusCode != 200 {
+		var response ErrorResponse
+		if err := json.NewDecoder(res.Body).Decode(&response); err != nil {
+			return PurgeStatus{}, err
+		}
+
+		return PurgeStatus{}, errors.New(response.Message)
+	}
+
+	var status PurgeStatus
+	if err := json.NewDecoder(res.Body).Decode(&status); err != nil {
+		return PurgeStatus{}, err
+	}
+
+	return status, nil
 }
