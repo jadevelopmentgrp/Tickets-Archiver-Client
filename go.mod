@@ -6,7 +6,7 @@ toolchain go1.22.4
 
 require (
 	github.com/TicketsBot/common v0.0.0-20240613013221-1e27eb8bfe37
-	github.com/TicketsBot/logarchiver v0.0.0-20240703162551-f7485e035ee5
+	github.com/TicketsBot/logarchiver v0.0.0-20240703193636-3c44350cfb8e
 	github.com/rxdn/gdl v0.0.0-20240612163900-621eccf40179
 )
 
