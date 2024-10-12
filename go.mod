@@ -6,15 +6,20 @@ toolchain go1.22.4
 
 require (
 	github.com/TicketsBot/common v0.0.0-20240613013221-1e27eb8bfe37
-	github.com/TicketsBot/logarchiver v0.0.0-20240719222608-bd57603f29ad
-	github.com/rxdn/gdl v0.0.0-20240612163900-621eccf40179
+	github.com/TicketsBot/logarchiver v0.0.0-20241012220745-5f3ba17a5138
+	github.com/rxdn/gdl v0.0.0-20241012214045-890597169639
 )
 
 require (
+	github.com/caarlos0/env v3.5.0+incompatible // indirect
 	github.com/dustin/go-humanize v1.0.1 // indirect
 	github.com/go-ini/ini v1.67.0 // indirect
 	github.com/goccy/go-json v0.10.3 // indirect
 	github.com/google/uuid v1.6.0 // indirect
+	github.com/jackc/pgpassfile v1.0.0 // indirect
+	github.com/jackc/pgservicefile v0.0.0-20221227161230-091c0ba34f0a // indirect
+	github.com/jackc/pgx/v5 v5.6.0 // indirect
+	github.com/jackc/puddle/v2 v2.2.1 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/klauspost/compress v1.17.9 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.8 // indirect
@@ -25,6 +30,7 @@ require (
 	github.com/rs/xid v1.5.0 // indirect
 	golang.org/x/crypto v0.24.0 // indirect
 	golang.org/x/net v0.26.0 // indirect
+	golang.org/x/sync v0.7.0 // indirect
 	golang.org/x/sys v0.21.0 // indirect
 	golang.org/x/text v0.16.0 // indirect
 )
