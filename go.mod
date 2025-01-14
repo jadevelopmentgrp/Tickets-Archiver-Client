@@ -5,7 +5,7 @@ go 1.22
 toolchain go1.22.4
 
 require (
-	github.com/TicketsBot/common v0.0.0-20240613013221-1e27eb8bfe37
+	github.com/jadevelopmentgrp/Tickets-Utilities v0.0.0-20250114185141-b5256d246d1f
 	github.com/TicketsBot/logarchiver v0.0.0-20241012220745-5f3ba17a5138
 	github.com/rxdn/gdl v0.0.0-20241012214045-890597169639
 )
