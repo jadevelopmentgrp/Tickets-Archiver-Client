@@ -1,4 +1,4 @@
-module github.com/TicketsBot/archiverclient
+module github.com/jadevelopmentgrp/Ticket-Archiver-Client
 
 go 1.22
 
