@@ -3,7 +3,7 @@ package archiverclient
 import (
 	"context"
 	"errors"
-	"github.com/TicketsBot/logarchiver/pkg/s3client"
+	"github.com/jadevelopmentgrp/Tickets-Archiver/pkg/s3client"
 )
 
 type S3Retriever struct {

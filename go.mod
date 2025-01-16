@@ -5,8 +5,8 @@ go 1.22
 toolchain go1.22.4
 
 require (
-	github.com/jadevelopmentgrp/Tickets-Utilities v0.0.0-20250114185141-b5256d246d1f
-	github.com/TicketsBot/logarchiver v0.0.0-20241012220745-5f3ba17a5138
+	github.com/jadevelopmentgrp/Tickets-Archiver v1.0.3
+	github.com/jadevelopmentgrp/Tickets-Utilities v1.0.0
 	github.com/rxdn/gdl v0.0.0-20241012214045-890597169639
 )
 
@@ -28,9 +28,9 @@ require (
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/rs/xid v1.5.0 // indirect
-	golang.org/x/crypto v0.24.0 // indirect
+	golang.org/x/crypto v0.28.0 // indirect
 	golang.org/x/net v0.26.0 // indirect
-	golang.org/x/sync v0.7.0 // indirect
-	golang.org/x/sys v0.21.0 // indirect
-	golang.org/x/text v0.16.0 // indirect
+	golang.org/x/sync v0.8.0 // indirect
+	golang.org/x/sys v0.26.0 // indirect
+	golang.org/x/text v0.19.0 // indirect
 )
