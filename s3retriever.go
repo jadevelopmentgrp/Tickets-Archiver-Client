@@ -3,6 +3,7 @@ package archiverclient
 import (
 	"context"
 	"errors"
+
 	"github.com/jadevelopmentgrp/Tickets-Archiver/pkg/s3client"
 )
 

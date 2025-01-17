@@ -6,7 +6,7 @@ toolchain go1.22.4
 
 require (
 	github.com/jadevelopmentgrp/Tickets-Archiver v1.0.3
-	github.com/jadevelopmentgrp/Tickets-Utilities v1.0.0
+	github.com/jadevelopmentgrp/Tickets-Utilities v1.0.2
 	github.com/rxdn/gdl v0.0.0-20241012214045-890597169639
 )
 
